@@ -41,6 +41,8 @@ Data-quality checks, Power Query transformations, estimated delivery date logic,
 ### Analysis & Validation
 Metric validation, filter-context decisions, distance-level analysis, and analytical iterations.
 
+
+
 ## LinkedIn Case Study
 
 [Solving One Business Problem at a Time: Are We Paying More for Better Delivery?](https://www.linkedin.com/pulse/solving-one-business-problem-time-we-paying-more-utkarsha-chandgadkar-7vc3c/)
