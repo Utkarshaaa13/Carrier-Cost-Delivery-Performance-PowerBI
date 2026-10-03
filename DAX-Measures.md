@@ -56,7 +56,7 @@ DIVIDE(
 
 Calculates the percentage of eligible shipments delivered within the expected timeline.
 
-## 3. Shipment Outcomes
+## 3. Lost, Returned, In-Transit Measures
 
 On-Time Delivery % captures delivery timing but does not capture every carrier outcome. Lost, Returned, and In-Transit shipments are therefore tracked separately.
 
@@ -92,7 +92,7 @@ CALCULATE(
 
 These outcomes are kept separate because each represents a different operational issue.
 
-### Shipment Outcome Rates
+### Lost, Returned, In-Transit % Measures
 
 Percentage measures normalize the outcome counts by total shipment volume, allowing more meaningful comparisons across carriers.
 
