@@ -43,7 +43,7 @@ Metric validation, filter-context decisions, distance-level analysis, and analyt
 
 ## LinkedIn Case Study
 
-[Solving One Business Problem at a Time: Are We Paying More for Better Delivery?](ADD_LINK)
+[Solving One Business Problem at a Time: Are We Paying More for Better Delivery?](https://www.linkedin.com/pulse/solving-one-business-problem-time-we-paying-more-utkarsha-chandgadkar-7vc3c/)
 
 ## Power BI Dashboard
 
