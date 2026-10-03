@@ -44,3 +44,12 @@ Metric validation, filter-context decisions, distance-level analysis, and analyt
 ## LinkedIn Case Study
 
 [Solving One Business Problem at a Time: Are We Paying More for Better Delivery?](ADD_LINK)
+
+## Power BI Dashboard
+
+### Carrier Performance Overview
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/5cb7287b-ec95-4922-99a9-25f5fc45a5e4" />
+
+
+### Distance Segment Analysis
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/a5fcaeee-a313-4f10-be37-82c0b1d5041b" />
