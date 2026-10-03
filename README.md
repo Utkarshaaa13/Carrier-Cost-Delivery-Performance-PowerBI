@@ -32,7 +32,6 @@ Detailed documentation of the measures used in the analysis:
 - On-Time Shipments
 - On-Time Delivery %
 - Lost / Returned / In-Transit Measures
-- Cost Rank by Distance
 - Dynamic Distance Benchmarks
 
 ### Data Preparation
