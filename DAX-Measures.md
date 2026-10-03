@@ -1,5 +1,7 @@
 # DAX Measures
 
+These are the main DAX measures used while building the carrier performance analysis.
+
 ## 1. Average Shipping Cost
 
 ```DAX
@@ -9,11 +11,9 @@ AVERAGE(logistics_shipments_dataset[Cost])
 
 `AVERAGE()` ignores `BLANK()` values because DAX treats blanks as missing values rather than zero.
 
----
-
 ## 2. On-Time Delivery Rate
 
-### Eligible Shipments
+First, I defined which shipments should actually be included in the delivery-performance calculation.
 
 ```DAX
 ELIGIBLE_SHIPMENTS =
@@ -25,9 +25,9 @@ CALCULATE(
 )
 ```
 
-`CALCULATE()` counts shipments after applying three conditions: the shipment must be Delivered or Delayed, must have a Delivery Date, and that Delivery Date cannot be before the Shipment Date.
+This includes Delivered or Delayed shipments that have a valid Delivery Date.
 
-### On-Time Shipments
+Next, I counted how many of those eligible shipments were delivered within the expected timeline.
 
 ```DAX
 ON_TIME_SHIPMENTS =
@@ -40,9 +40,11 @@ CALCULATE(
 )
 ```
 
-`Delivery_Date <= Estimated_Delivery_Date`, so only shipments that met the expected delivery timeline are counted as on-time.
+A shipment is considered on time when:
 
-### On-Time %
+`Delivery_Date <= Estimated_Delivery_Date`
+
+The final On-Time Delivery % is:
 
 ```DAX
 ON_TIME_PERCENT = 
@@ -52,9 +54,13 @@ DIVIDE(
 )
 ```
 
----
+## 3. Shipment Outcomes
 
-## 3. Lost Shipments
+On-Time Delivery % tells me whether eligible shipments met their expected timeline, but it does not show every carrier outcome.
+
+A carrier could have a strong On-Time % among completed shipments while still having lost or returned shipments. So I tracked these outcomes separately.
+
+### Lost Shipments
 
 ```DAX
 LOST_SHIPMENTS =
@@ -64,9 +70,7 @@ CALCULATE(
 )
 ```
 
----
-
-## 4. Returned Shipments
+### Returned Shipments
 
 ```DAX
 RETURNED_SHIPMENTS =
@@ -76,9 +80,7 @@ CALCULATE(
 )
 ```
 
----
-
-## 5. In-Transit Shipments
+### In-Transit Shipments
 
 ```DAX
 IN_TRANSIT_SHIPMENTS =
@@ -88,66 +90,24 @@ CALCULATE(
 )
 ```
 
-### Why Lost, Returned, and In-Transit Measures Were Added
+I kept these outcomes separate instead of combining them into one reliability score because they represent different operational issues.
 
-On-Time Delivery % measures whether eligible shipments met their expected delivery timeline, but it does not capture every type of carrier outcome.
-
-For example, a carrier could have a strong On-Time % among completed shipments while still having a meaningful number of lost or returned shipments.
-
-To avoid evaluating carrier reliability using delivery timing alone, I tracked three additional shipment outcomes:
-
-- **Lost Shipments** — identifies shipments that did not successfully reach the customer.
-- **Returned Shipments** — captures shipments that were returned rather than successfully completed.
-- **In-Transit Shipments** — tracks unresolved shipments whose final delivery outcome is not yet known.
-
-These measures are kept separate rather than combined into a single reliability score because each outcome represents a different operational issue.
-
-The measures also respond to the current Power BI filter context, allowing these outcomes to be analyzed by carrier and distance segment.
-
-Raw shipment counts can be misleading when carriers handle different shipment volumes. Percentage measures normalize each outcome against total shipments, making carrier comparisons more meaningful.
-
----
-
-## 6. Lost Shipment %
+I also calculated percentages because raw counts alone can be misleading when carriers handle different shipment volumes.
 
 ```DAX
 LOST_PERCENT =
-DIVIDE(
-    [LOST_SHIPMENTS],
-    [TOTAL_SHIPMENTS],
-    0
-)
-```
+DIVIDE([LOST_SHIPMENTS], [TOTAL_SHIPMENTS], 0)
 
----
-
-## 7. Returned Shipment %
-
-```DAX
 RETURNED_PERCENT =
-DIVIDE(
-    [RETURNED_SHIPMENTS],
-    [TOTAL_SHIPMENTS],
-    0
-)
-```
+DIVIDE([RETURNED_SHIPMENTS], [TOTAL_SHIPMENTS], 0)
 
----
-
-## 8. In-Transit Shipment %
-
-```DAX
 IN_TRANSIT_PERCENT =
-DIVIDE(
-    [IN_TRANSIT_SHIPMENTS],
-    [TOTAL_SHIPMENTS],
-    0
-)
+DIVIDE([IN_TRANSIT_SHIPMENTS], [TOTAL_SHIPMENTS], 0)
 ```
 
----
+## 4. Distance-Level Benchmark
 
-## 9. Bucket Average Cost
+For the distance analysis, I needed the overall average cost for the selected distance segment rather than the value for one individual carrier.
 
 ```DAX
 BUCKET_AVG_COST =
@@ -157,4 +117,4 @@ CALCULATE(
 )
 ```
 
-`REMOVEFILTERS()` removes the individual carrier filter while keeping the distance-segment filter.
+`REMOVEFILTERS()` removes the individual carrier filter while keeping the selected distance-segment filter.
