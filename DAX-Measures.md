@@ -1,6 +1,6 @@
 # DAX Measures
 
-These are the main DAX measures used while building the carrier performance analysis.
+Key DAX measures used in the carrier cost and delivery performance analysis.
 
 ## 1. Average Shipping Cost
 
@@ -13,7 +13,7 @@ AVERAGE(logistics_shipments_dataset[Cost])
 
 ## 2. On-Time Delivery Rate
 
-First, I defined which shipments should actually be included in the delivery-performance calculation.
+### Eligible Shipments
 
 ```DAX
 ELIGIBLE_SHIPMENTS =
@@ -25,9 +25,9 @@ CALCULATE(
 )
 ```
 
-This includes Delivered or Delayed shipments that have a valid Delivery Date.
+Defines the valid population for delivery-performance analysis: Delivered or Delayed shipments with a valid Delivery Date.
 
-Next, I counted how many of those eligible shipments were delivered within the expected timeline.
+### On-Time Shipments
 
 ```DAX
 ON_TIME_SHIPMENTS =
@@ -40,11 +40,11 @@ CALCULATE(
 )
 ```
 
-A shipment is considered on time when:
+A shipment is counted as on time when:
 
 `Delivery_Date <= Estimated_Delivery_Date`
 
-The final On-Time Delivery % is:
+### On-Time %
 
 ```DAX
 ON_TIME_PERCENT = 
@@ -54,11 +54,11 @@ DIVIDE(
 )
 ```
 
+Calculates the percentage of eligible shipments delivered within the expected timeline.
+
 ## 3. Shipment Outcomes
 
-On-Time Delivery % tells me whether eligible shipments met their expected timeline, but it does not show every carrier outcome.
-
-A carrier could have a strong On-Time % among completed shipments while still having lost or returned shipments. So I tracked these outcomes separately.
+On-Time Delivery % captures delivery timing but does not capture every carrier outcome. Lost, Returned, and In-Transit shipments are therefore tracked separately.
 
 ### Lost Shipments
 
@@ -90,9 +90,11 @@ CALCULATE(
 )
 ```
 
-I kept these outcomes separate instead of combining them into one reliability score because they represent different operational issues.
+These outcomes are kept separate because each represents a different operational issue.
 
-I also calculated percentages because raw counts alone can be misleading when carriers handle different shipment volumes.
+### Shipment Outcome Rates
+
+Percentage measures normalize the outcome counts by total shipment volume, allowing more meaningful comparisons across carriers.
 
 ```DAX
 LOST_PERCENT =
@@ -105,9 +107,7 @@ IN_TRANSIT_PERCENT =
 DIVIDE([IN_TRANSIT_SHIPMENTS], [TOTAL_SHIPMENTS], 0)
 ```
 
-## 4. Distance-Level Benchmark
-
-For the distance analysis, I needed the overall average cost for the selected distance segment rather than the value for one individual carrier.
+## 4. Distance-Level Average Cost
 
 ```DAX
 BUCKET_AVG_COST =
@@ -117,4 +117,4 @@ CALCULATE(
 )
 ```
 
-`REMOVEFILTERS()` removes the individual carrier filter while keeping the selected distance-segment filter.
+`REMOVEFILTERS()` removes the individual carrier filter while preserving the selected distance-segment filter, creating a dynamic average-cost benchmark across carriers.
