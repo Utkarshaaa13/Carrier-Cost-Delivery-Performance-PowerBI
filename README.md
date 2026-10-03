@@ -41,10 +41,6 @@ Data-quality checks, Power Query transformations, estimated delivery date logic,
 ### Analysis & Validation
 Metric validation, filter-context decisions, distance-level analysis, and analytical iterations.
 
-## Power BI Dashboard
-
-[View Power BI Dashboard](ADD_POWER_BI_LINK)
-
 ## LinkedIn Case Study
 
 [Solving One Business Problem at a Time: Are We Paying More for Better Delivery?](ADD_LINK)
